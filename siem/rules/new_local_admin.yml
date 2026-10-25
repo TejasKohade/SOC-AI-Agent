@@ -1,0 +1,14 @@
+title: Local account created and added to Administrators
+id: autosoc-new-local-admin
+status: test
+level: high
+tags: [attack.persistence, attack.t1136]
+logsource: {product: windows, category: process_creation}
+detection:
+  sel_user_add:
+    process.command_line|contains|all: ["net", "user", "/add"]
+  sel_group_add:
+    process.command_line|contains|all: ["localgroup", "administrators", "/add"]
+  sel_event:
+    winlog.event_id: [4720, 4732]
+  condition: 1 of sel_*

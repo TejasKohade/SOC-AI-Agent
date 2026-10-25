@@ -1,0 +1,20 @@
+id: malicious_ip
+name: Malicious IP / brute force
+trigger: Repeated failed logins from one IP
+mitre: [T1110]
+rules: [autosoc-ssh-bruteforce]
+params:
+  src_ip: {required: true, desc: "attacking source IP"}
+  user: {required: false, desc: "account that logged in successfully after the failures, if any"}
+  login_success: {required: false, desc: "true if a login from src_ip succeeded"}
+steps:
+  - id: block_ip
+    tool: firewall.block_ip
+    params: {indicator: "{src_ip}", duration_h: 24}
+    tier: 1
+  - id: revoke_sessions
+    tool: idp.revoke_sessions
+    when: login_success
+    params: {user: "{user}", reason: "login succeeded after brute force"}
+    tier: 2
+    raise_if: {user_role: [admin, exec]}

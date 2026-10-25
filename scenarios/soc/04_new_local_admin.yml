@@ -1,0 +1,17 @@
+id: new-local-admin-01
+mitre: T1136
+description: bob's session on Windows server srv-win-04 creates a local account and adds it to Administrators at 03:00.
+events:
+  - event: {source: sysmon, event_id: 1, action: process_start, host: srv-win-04, user: bob, process: net.exe,
+            parent: cmd.exe, cmd: "net user svc-helpdesk Winter2026! /add"}
+  - after: 4s
+    event: {source: sysmon, event_id: 1, action: process_start, host: srv-win-04, user: bob, process: net.exe,
+            parent: cmd.exe, cmd: "net localgroup administrators svc-helpdesk /add"}
+noise: {benign_logins: 100, benign_processes: 50}
+noise_hosts: [srv-win-04, db-01, wks-alice-01]
+expect:
+  verdict: [malicious, suspicious]
+  actions: [idp.disable_user, idp.revoke_sessions]
+  may: [idp.force_password_reset]
+  # Evidence is from one source (Sysmon only), so the gate raises every step from tier 2 to 3.
+  max_tier: 3

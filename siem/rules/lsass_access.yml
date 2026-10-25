@@ -1,0 +1,13 @@
+title: LSASS process memory accessed (credential dumping)
+id: autosoc-lsass-access
+status: test
+level: critical
+tags: [attack.credential_access, attack.t1003.001]
+logsource: {product: windows, service: sysmon}
+detection:
+  selection:
+    event.action: process_access
+    process.target.name|endswith: lsass.exe
+  filter_av:
+    process.name: [msmpeng.exe, wmiprvse.exe]
+  condition: selection and not filter_av

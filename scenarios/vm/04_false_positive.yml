@@ -1,0 +1,8 @@
+id: vm-false-positive
+description: Vulnerable package installed but service not running -> agent proposes false positive, human confirms.
+steps:
+  - job: scan
+  - job: vm_agent
+  - expect: {host: app-02, cve: CVE-2026-21006, proposal: false_positive, ticket: false}
+  - confirm_fp: {host: app-02, cve: CVE-2026-21006, user: ana}
+  - expect: {host: app-02, cve: CVE-2026-21006, state: false_positive}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/candidate.json",
+    "sha256": "ff016ffc408c5bf3407888e860ef27152545d7d8172426047025db4ce0a954dd",
+    "bytes": 4421
+  },
+  "artifact": {
+    "path": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/autosoc-runtime.html",
+    "sha256": "d9bedf78b3d3e50d6c3c8ee240eef862395ce494c803e32b9e44ea15c1cee3e3",
+    "bytes": 823567
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/autosoc-runtime.finalize.json",
+    "summaryReceipt": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/autosoc-runtime.finalize-summary.json",
+    "browserCheckReceipt": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/autosoc-runtime.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-17T07:04:30.290Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3166,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "resolvedCrossovers": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [
+        {
+          "left": {
+            "id": "vm-gate",
+            "from": "vm",
+            "to": "gate",
+            "label": "same gate",
+            "collectionIndex": 6,
+            "artifactIndex": 7
+          },
+          "right": {
+            "id": "llm-call",
+            "from": "cases",
+            "to": "llm",
+            "label": "JSON",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "point": [
+            765,
+            84
+          ]
+        }
+      ],
+      "detours": [],
+      "truncated": false
+    },
+    "hints": [
+      "vm → gate crosses cases → llm: move the node of whichever is a branch, return, or second entrance to the other side of the main path, so that relationship runs through an empty corridor."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

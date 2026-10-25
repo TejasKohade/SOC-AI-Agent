@@ -1,0 +1,15 @@
+title: Encoded PowerShell or download cradle
+id: autosoc-encoded-powershell
+status: test
+level: high
+tags: [attack.execution, attack.t1059.001]
+logsource: {product: windows, category: process_creation}
+detection:
+  sel_proc:
+    process.name|endswith: [powershell.exe, pwsh.exe]
+  sel_encoded:
+    process.command_line|contains: [" -enc ", " -encodedcommand ", " -e "]
+  sel_cradle:
+    process.command_line|contains: [downloadstring, "invoke-webrequest", "iwr ", "net.webclient"]
+  condition: sel_proc and (sel_encoded or sel_cradle)
+falsepositives: [Software deployment tools (SCCM, Intune) that run encoded scripts]

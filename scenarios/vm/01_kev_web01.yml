@@ -1,0 +1,16 @@
+id: vm-kev-web01
+description: KEV CVE on internet-facing web-01 -> P1, ticket, Tier 3 patch approval, rescan closes it within the mock 72 h.
+steps:
+  - job: scan
+  - expect: {host: web-01, cve: CVE-2026-21001, priority: P1, state: triaged}
+  - job: vm_agent
+  - expect: {host: web-01, cve: CVE-2026-21001, state: assigned, ticket: true}
+  - job: remediation
+  - expect: {host: web-01, cve: CVE-2026-21001, action: {tier: 3, status: pending_approval}}
+  - approve: {host: web-01, cve: CVE-2026-21001, by: [[ana, analyst]]}
+  - expect: {host: web-01, cve: CVE-2026-21001, action: {status: pending_approval}}
+  - approve: {host: web-01, cve: CVE-2026-21001, by: [[lee, soc_lead]]}
+  - expect: {host: web-01, cve: CVE-2026-21001, state: pending_verification}
+  - advance: 24h
+  - job: verify
+  - expect: {host: web-01, cve: CVE-2026-21001, state: closed, sla_breached: false}

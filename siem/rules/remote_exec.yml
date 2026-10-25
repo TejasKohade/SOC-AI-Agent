@@ -1,0 +1,13 @@
+title: Remote execution via WMIC or PsExec
+id: autosoc-remote-exec
+status: test
+level: high
+tags: [attack.lateral_movement, attack.t1021.002]
+logsource: {product: windows, category: process_creation}
+detection:
+  sel_wmic_remote:
+    process.name|endswith: wmic.exe
+    process.command_line|contains|all: ["/node:", "process call create"]
+  sel_psexec:
+    process.command_line|contains: [psexec, psexesvc]
+  condition: 1 of sel_*

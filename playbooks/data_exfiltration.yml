@@ -1,0 +1,13 @@
+id: data_exfiltration
+name: Data exfiltration
+trigger: Large outbound transfer to a rare destination
+mitre: [T1048]
+rules: [autosoc-data-exfiltration]
+params:
+  dst_ip: {required: true}
+  host: {required: true}
+steps:
+  - id: block_destination
+    tool: firewall.block_ip
+    params: {indicator: "{dst_ip}", duration_h: 72}
+    tier: 3

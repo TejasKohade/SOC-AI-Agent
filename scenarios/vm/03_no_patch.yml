@@ -1,0 +1,12 @@
+id: vm-no-patch
+description: No patch available -> compensating control applied, finding stays open with an exception.
+steps:
+  - job: scan
+  - job: vm_agent
+  - job: remediation
+  - expect: {host: db-01, cve: CVE-2026-21005, action: {tool: patch.control, tier: 2, status: pending_approval}}
+  - approve: {host: db-01, cve: CVE-2026-21005, by: [[ana, analyst]]}
+  - expect: {host: db-01, cve: CVE-2026-21005, state: in_remediation, action: {status: executed}}
+  - accept_risk: {host: db-01, cve: CVE-2026-21005, reason: "Vendor EOL, replacement in Q1", control: "port 9100 blocked",
+                  days: 90, approvals: [{user: lee, role: soc_lead}]}
+  - expect: {host: db-01, cve: CVE-2026-21005, state: risk_accepted}

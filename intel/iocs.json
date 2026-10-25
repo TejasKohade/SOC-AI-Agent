@@ -1,0 +1,13 @@
+{
+  "_note": "Mock threat-intel feed (stands in for MISP / VirusTotal / AbuseIPDB). All indicators are documentation/test values.",
+  "indicators": [
+    {"value": "203.0.113.45", "type": "ip", "score": 92, "verdict": "malicious", "tags": ["ssh-bruteforce", "scanner"], "source": "abuseipdb-mock"},
+    {"value": "198.51.100.23", "type": "ip", "score": 97, "verdict": "malicious", "tags": ["c2", "payload-host"], "source": "misp-mock"},
+    {"value": "evil-payload.test", "type": "domain", "score": 95, "verdict": "malicious", "tags": ["malware-distribution"], "source": "misp-mock"},
+    {"value": "login-micros0ft.test", "type": "domain", "score": 99, "verdict": "malicious", "tags": ["phishing", "credential-harvest"], "source": "phishtank-mock"},
+    {"value": "http://login-micros0ft.test/reset", "type": "url", "score": 99, "verdict": "malicious", "tags": ["phishing"], "source": "phishtank-mock"},
+    {"value": "5f4dcc3b5aa765d61d8327deb882cf99aa0e1c4f1e2d3c4b5a69788776655443", "type": "sha256", "score": 100, "verdict": "malicious", "tags": ["mimikatz", "credential-dumping"], "source": "virustotal-mock"},
+    {"value": "8.8.8.8", "type": "ip", "score": 0, "verdict": "benign", "tags": ["public-dns"], "source": "allowlist"},
+    {"value": "sccm.corp.local", "type": "domain", "score": 0, "verdict": "benign", "tags": ["internal"], "source": "allowlist"}
+  ]
+}

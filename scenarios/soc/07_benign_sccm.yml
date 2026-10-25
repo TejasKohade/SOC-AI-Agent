@@ -1,0 +1,14 @@
+id: benign-sccm-01
+mitre: T1059.001
+description: Look-alike benign case - SCCM runs an encoded inventory script. Should be closed as a false positive.
+events:
+  - event: {source: sysmon, event_id: 1, action: process_start, host: wks-alice-01, user: svc-sccm,
+            process: powershell.exe, parent: CcmExec.exe,
+            encode_cmd: "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version"}
+noise: {benign_processes: 100}
+noise_hosts: [wks-alice-01]
+expect:
+  verdict: [false_positive, benign]
+  actions: []
+  no_actions: true
+  status: false_positive

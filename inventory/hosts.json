@@ -1,0 +1,216 @@
+{
+  "_note": "Mock CMDB. criticality: critical|high|normal|low. exposure: internet-facing|internal|isolated.",
+  "hosts": [
+    {
+      "name": "web-01",
+      "ip": "10.0.1.10",
+      "os": "linux",
+      "role": "server",
+      "environment": "production",
+      "criticality": "high",
+      "exposure": "internet-facing",
+      "owner": "web-team",
+      "packages": {
+        "apache-httpd": "2.4.58",
+        "openssh": "9.6",
+        "bash": "5.2"
+      },
+      "services": [
+        {
+          "name": "apache-httpd",
+          "port": 443,
+          "running": true
+        },
+        {
+          "name": "openssh",
+          "port": 22,
+          "running": true
+        }
+      ]
+    },
+    {
+      "name": "app-02",
+      "ip": "10.0.2.20",
+      "os": "linux",
+      "role": "server",
+      "environment": "staging",
+      "criticality": "normal",
+      "exposure": "internal",
+      "owner": "app-team",
+      "packages": {
+        "wikiserver": "8.5.1",
+        "redis": "7.2.1",
+        "openssh": "9.8"
+      },
+      "services": [
+        {
+          "name": "wikiserver",
+          "port": 8090,
+          "running": true
+        },
+        {
+          "name": "redis",
+          "port": 6379,
+          "running": false
+        },
+        {
+          "name": "openssh",
+          "port": 22,
+          "running": true
+        }
+      ]
+    },
+    {
+      "name": "db-01",
+      "ip": "10.0.3.30",
+      "os": "linux",
+      "role": "server",
+      "environment": "production",
+      "criticality": "high",
+      "exposure": "internal",
+      "owner": "data-team",
+      "packages": {
+        "postgresql": "16.4",
+        "legacy-reportsvc": "3.1"
+      },
+      "services": [
+        {
+          "name": "postgresql",
+          "port": 5432,
+          "running": true
+        },
+        {
+          "name": "legacy-reportsvc",
+          "port": 9100,
+          "running": true
+        }
+      ]
+    },
+    {
+      "name": "dc-01",
+      "ip": "10.0.0.5",
+      "os": "windows",
+      "role": "server",
+      "environment": "production",
+      "criticality": "critical",
+      "exposure": "internal",
+      "owner": "it-infra",
+      "packages": {
+        "windows-server": "2022.2700"
+      },
+      "services": [
+        {
+          "name": "ldap",
+          "port": 389,
+          "running": true
+        }
+      ]
+    },
+    {
+      "name": "test-box-01",
+      "ip": "10.9.0.99",
+      "os": "linux",
+      "role": "server",
+      "environment": "test",
+      "criticality": "low",
+      "exposure": "isolated",
+      "owner": "qa-team",
+      "packages": {
+        "libfoo-parser": "1.2.0"
+      },
+      "services": [
+        {
+          "name": "libfoo-parser",
+          "port": 7000,
+          "running": true
+        }
+      ]
+    },
+    {
+      "name": "wks-alice-01",
+      "ip": "10.1.0.11",
+      "os": "windows",
+      "role": "workstation",
+      "environment": "corp",
+      "criticality": "normal",
+      "exposure": "internal",
+      "owner": "alice",
+      "maintenance_window": true,
+      "packages": {
+        "pdfreader": "11.0",
+        "7zip": "24.08"
+      },
+      "services": []
+    },
+    {
+      "name": "wks-bob-02",
+      "ip": "10.1.0.12",
+      "os": "windows",
+      "role": "workstation",
+      "environment": "corp",
+      "criticality": "normal",
+      "exposure": "internal",
+      "owner": "bob",
+      "maintenance_window": true,
+      "packages": {
+        "7zip": "23.01"
+      },
+      "services": []
+    },
+    {
+      "name": "wks-carol-03",
+      "ip": "10.1.0.13",
+      "os": "windows",
+      "role": "workstation",
+      "environment": "corp",
+      "criticality": "normal",
+      "exposure": "internal",
+      "owner": "carol",
+      "maintenance_window": true,
+      "packages": {
+        "7zip": "24.08"
+      },
+      "services": []
+    },
+    {
+      "name": "mail-gw",
+      "ip": "10.0.0.25",
+      "os": "linux",
+      "role": "server",
+      "environment": "production",
+      "criticality": "high",
+      "exposure": "internet-facing",
+      "owner": "it-infra",
+      "packages": {
+        "postfix": "3.9.0"
+      },
+      "services": [
+        {
+          "name": "postfix",
+          "port": 25,
+          "running": true
+        }
+      ]
+    },
+    {
+      "name": "srv-win-04",
+      "ip": "10.0.2.40",
+      "os": "windows",
+      "role": "server",
+      "environment": "corp",
+      "criticality": "normal",
+      "exposure": "internal",
+      "owner": "it-infra",
+      "packages": {
+        "iis": "10.0"
+      },
+      "services": [
+        {
+          "name": "iis",
+          "port": 443,
+          "running": true
+        }
+      ]
+    }
+  ]
+}

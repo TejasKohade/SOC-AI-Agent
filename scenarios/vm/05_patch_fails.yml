@@ -1,0 +1,10 @@
+id: vm-patch-fails
+description: Patch fails verification -> finding reopens and the ticket escalates.
+steps:
+  - set_host: {host: wks-bob-02, patch_fails: [7zip]}
+  - job: scan
+  - job: vm_agent
+  - job: remediation
+  - expect: {host: wks-bob-02, cve: CVE-2026-21007, state: pending_verification, action: {tier: 1, status: executed}}
+  - job: verify
+  - expect: {host: wks-bob-02, cve: CVE-2026-21007, state: reopened, ticket_escalated: true}

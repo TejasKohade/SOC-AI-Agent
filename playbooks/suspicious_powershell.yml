@@ -1,0 +1,24 @@
+id: suspicious_powershell
+name: Suspicious PowerShell
+trigger: Encoded or download-cradle command
+mitre: [T1059.001]
+rules: [autosoc-encoded-powershell]
+params:
+  host: {required: true}
+  process: {required: true}
+  c2_ip: {required: false, desc: "IP the decoded command downloads from"}
+steps:
+  - id: block_c2
+    tool: firewall.block_ip
+    when: c2_ip
+    params: {indicator: "{c2_ip}", duration_h: 24}
+    tier: 1
+  - id: kill_process
+    tool: edr.kill_process
+    params: {host: "{host}", process: "{process}"}
+    tier: 2
+  - id: isolate_host
+    tool: edr.isolate_host
+    params: {host: "{host}", reason: "malicious PowerShell download cradle"}
+    tier: 2
+    raise_if: {host_role: [server]}

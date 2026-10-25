@@ -1,0 +1,17 @@
+title: Living-off-the-land binary used to download or execute a payload
+id: autosoc-lolbin-exec
+status: test
+level: high
+tags: [attack.defense_evasion, attack.t1218]
+logsource: {product: windows, category: process_creation}
+detection:
+  sel_mshta:
+    process.name|endswith: mshta.exe
+    process.command_line|contains: [vbscript, javascript, "http"]
+  sel_bits:
+    process.name|endswith: bitsadmin.exe
+    process.command_line|contains: [/transfer, /download]
+  sel_rundll_lsass:
+    process.name|endswith: rundll32.exe
+    process.command_line|contains: [comsvcs.dll, minidump]
+  condition: 1 of sel_*

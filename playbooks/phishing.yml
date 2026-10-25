@@ -1,0 +1,25 @@
+id: phishing
+name: Phishing email
+trigger: User reports an email, or the mail gateway flags a look-alike URL
+mitre: [T1566]
+rules: [autosoc-phishing-url]
+params:
+  message_ids: {required: true, desc: "message ids of every copy of the email (other recipients included)"}
+  domain: {required: true, desc: "malicious sender or URL domain"}
+  clicked_users: {required: false, desc: "users who clicked the link"}
+steps:
+  - id: quarantine
+    tool: email.quarantine
+    foreach: message_ids
+    params: {message_id: "{item}"}
+    tier: 1
+  - id: block_domain
+    tool: firewall.block_domain
+    params: {indicator: "{domain}", duration_h: 24}
+    tier: 1
+  - id: reset_clickers
+    tool: idp.force_password_reset
+    foreach: clicked_users
+    when: clicked_users
+    params: {user: "{item}", reason: "clicked phishing link"}
+    tier: 2

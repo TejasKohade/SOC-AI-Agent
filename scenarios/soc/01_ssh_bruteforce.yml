@@ -1,0 +1,13 @@
+id: ssh-bruteforce-01
+mitre: T1110
+description: SSH brute force against web-01 from a known-bad IP, ending in a successful login.
+events:
+  - repeat: 40
+    every: 2s
+    event: {source: auditd, host: web-01, action: ssh_login_failed, src_ip: 203.0.113.45, user: deploy}
+  - event: {source: auditd, host: web-01, action: ssh_login_success, src_ip: 203.0.113.45, user: deploy}
+noise: {benign_logins: 200, benign_dns: 50, malformed: 5}
+expect:
+  verdict: malicious
+  actions: [firewall.block_ip, idp.revoke_sessions]
+  max_tier: 2

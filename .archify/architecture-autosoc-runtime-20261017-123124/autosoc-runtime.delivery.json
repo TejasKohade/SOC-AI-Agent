@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "70925b11-c653-4878-b0ae-a7940dbdf561",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/candidate.json",
+  "output": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/autosoc-runtime.html",
+  "specification": {
+    "sha256": "db3bb2e5acfce13d59a3937e434976422d9bd0c52afb2f925e03fd62b1694c81",
+    "bytes": 4374
+  },
+  "artifact": {
+    "sha256": "467f8854c9d0feb3ea57bf7839cb9dc794a0a0718b88ffc969d204c30fb39877",
+    "bytes": 823580
+  }
+}

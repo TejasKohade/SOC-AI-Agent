@@ -1,0 +1,13 @@
+title: New account created or added to a privileged group
+id: autosoc-account-created
+status: test
+level: high
+tags: [attack.persistence, attack.t1136.001]
+logsource: {product: windows}
+detection:
+  sel_create:
+    event.action: user_created
+  sel_group:
+    event.action: added_to_group
+    group.name|contains: [admin, Administrators]
+  condition: 1 of sel_*

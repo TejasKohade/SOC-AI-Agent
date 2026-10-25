@@ -1,0 +1,13 @@
+title: SSH brute force from a single source
+id: autosoc-ssh-bruteforce
+status: test
+level: high
+description: Many failed SSH logins from one source IP against one host in a short window.
+tags: [attack.credential_access, attack.t1110]
+logsource: {product: linux, service: auditd}
+detection:
+  selection:
+    event.action: ssh_login_failed
+  condition: selection
+threshold: {count: 10, timeframe: 120, group_by: [source.ip, host.name]}
+falsepositives: [Misconfigured automation retrying with an old password]

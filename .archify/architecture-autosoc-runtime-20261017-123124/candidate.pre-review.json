@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AutoSOC runtime",
+    "locale": "en",
+    "output": ".archify/architecture-autosoc-runtime-20261017-123124/autosoc-runtime.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "operator",
+      "type": "frontend",
+      "label": "Operator",
+      "sublabel": "CLI and Streamlit",
+      "pos": [
+        40,
+        168
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "pipeline",
+      "type": "backend",
+      "label": "Scenario runner",
+      "sublabel": "pipeline.run",
+      "pos": [
+        250,
+        168
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "siem",
+      "type": "backend",
+      "label": "Rule engine",
+      "sublabel": "Sigma-style YAML",
+      "pos": [
+        470,
+        168
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "cases",
+      "type": "backend",
+      "label": "Case machine",
+      "sublabel": "triage to report",
+      "pos": [
+        690,
+        168
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "Approval gate",
+      "sublabel": "tiers 0-3",
+      "pos": [
+        910,
+        168
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "mocks",
+      "type": "backend",
+      "label": "Mock tools",
+      "sublabel": "EDR, firewall, IdP",
+      "pos": [
+        910,
+        360
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "vm",
+      "type": "backend",
+      "label": "VM jobs",
+      "sublabel": "scan and patch",
+      "pos": [
+        250,
+        36
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "data/autosoc.db",
+      "pos": [
+        470,
+        360
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM providers",
+      "sublabel": "Bedrock, OpenRouter",
+      "pos": [
+        1080,
+        36
+      ],
+      "size": [
+        150,
+        64
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "One Python process",
+      "wraps": [
+        "operator",
+        "pipeline",
+        "siem",
+        "cases",
+        "gate",
+        "mocks",
+        "vm",
+        "sqlite"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "run",
+      "from": "operator",
+      "to": "pipeline",
+      "label": "runs",
+      "variant": "emphasis"
+    },
+    {
+      "id": "events",
+      "from": "pipeline",
+      "to": "siem",
+      "label": "events",
+      "variant": "emphasis"
+    },
+    {
+      "id": "alerts",
+      "from": "siem",
+      "to": "cases",
+      "label": "alerts",
+      "variant": "emphasis"
+    },
+    {
+      "id": "plan",
+      "from": "cases",
+      "to": "gate",
+      "label": "plan",
+      "variant": "emphasis"
+    },
+    {
+      "id": "post",
+      "from": "gate",
+      "to": "mocks",
+      "label": "POST",
+      "variant": "security"
+    },
+    {
+      "id": "vm-jobs",
+      "from": "pipeline",
+      "to": "vm",
+      "label": "VM path"
+    },
+    {
+      "id": "vm-gate",
+      "from": "vm",
+      "to": "gate",
+      "label": "same gate",
+      "variant": "security"
+    },
+    {
+      "id": "siem-db",
+      "from": "siem",
+      "to": "sqlite",
+      "label": "events"
+    },
+    {
+      "id": "case-db",
+      "from": "cases",
+      "to": "sqlite",
+      "label": "cases"
+    },
+    {
+      "id": "llm-call",
+      "from": "cases",
+      "to": "llm",
+      "label": "JSON"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Replay",
+      "items": [
+        "CLI and Streamlit both call pipeline.run",
+        "SOC scenarios become events, then alerts, then one case"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Gate",
+      "items": [
+        "Tier 0-1 runs immediately",
+        "Tier 2 can auto-run for high-confidence malware",
+        "Tier 3 needs an analyst and a SOC lead"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "One database",
+      "items": [
+        "Events, cases, actions, and findings share data/autosoc.db",
+        "Mock tools default to an in-process client"
+      ]
+    }
+  ]
+}

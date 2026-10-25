@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AutoSOC runtime",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "output": ".archify/architecture-autosoc-runtime-20261017-142343/autosoc-runtime.html"
+  },
+  "components": [
+    {
+      "id": "operator",
+      "type": "frontend",
+      "label": "Operator",
+      "sublabel": "CLI and Streamlit",
+      "pos": [40, 72],
+      "size": [130, 260]
+    },
+    {
+      "id": "replay",
+      "type": "backend",
+      "label": "Replay",
+      "sublabel": "fresh Sigma engine",
+      "pos": [260, 72],
+      "size": [150, 56]
+    },
+    {
+      "id": "ingest",
+      "type": "backend",
+      "label": "Live ingest",
+      "sublabel": "settle 10s / 120s",
+      "pos": [260, 174],
+      "size": [150, 56]
+    },
+    {
+      "id": "stream",
+      "type": "backend",
+      "label": "Stream",
+      "sublabel": "settle 6s / 45s",
+      "pos": [260, 276],
+      "size": [150, 56]
+    },
+    {
+      "id": "baselines",
+      "type": "backend",
+      "label": "Baselines",
+      "sublabel": "stream only",
+      "pos": [260, 404],
+      "size": [150, 56]
+    },
+    {
+      "id": "cases",
+      "type": "backend",
+      "label": "Case machine",
+      "sublabel": "process_alert",
+      "pos": [490, 72],
+      "size": [170, 260]
+    },
+    {
+      "id": "vm",
+      "type": "backend",
+      "label": "VM jobs",
+      "sublabel": "tier_override",
+      "pos": [750, 42],
+      "size": [140, 56]
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "Approval gate",
+      "sublabel": "holds tier 2–3",
+      "tag": "tier 0–3",
+      "pos": [750, 170],
+      "size": [140, 64]
+    },
+    {
+      "id": "mocks",
+      "type": "backend",
+      "label": "Mock tools",
+      "sublabel": "in-process HTTP",
+      "pos": [970, 172],
+      "size": [150, 60]
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "events and cases",
+      "pos": [490, 404],
+      "size": [170, 56]
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "Bedrock",
+      "sublabel": "OpenRouter next",
+      "pos": [970, 554],
+      "size": [150, 56]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "One Python process",
+      "wraps": ["operator", "replay", "ingest", "stream", "baselines", "cases", "vm", "gate", "mocks", "sqlite"]
+    }
+  ],
+  "connections": [
+    { "id": "op-replay", "from": "operator", "to": "replay", "label": "run" },
+    { "id": "op-ingest", "from": "operator", "to": "ingest", "label": "ingest" },
+    { "id": "op-stream", "from": "operator", "to": "stream", "label": "stream", "variant": "emphasis" },
+    { "id": "replay-cases", "from": "replay", "to": "cases", "label": "alerts" },
+    { "id": "ingest-cases", "from": "ingest", "to": "cases", "label": "alerts" },
+    { "id": "stream-cases", "from": "stream", "to": "cases", "label": "alerts", "variant": "emphasis" },
+    { "id": "stream-base", "from": "stream", "to": "baselines", "label": "score" },
+    { "id": "cases-gate", "from": "cases", "to": "gate", "label": "plan", "variant": "emphasis" },
+    { "id": "vm-gate", "from": "vm", "to": "gate", "label": "submit", "variant": "security" },
+    { "id": "gate-mocks", "from": "gate", "to": "mocks", "label": "POST", "variant": "security" },
+    { "id": "cases-db", "from": "cases", "to": "sqlite", "label": "rows" },
+    { "id": "cases-llm", "from": "cases", "to": "llm", "label": "JSON", "fromSide": "right", "toSide": "top" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Three feeds",
+      "items": [
+        "Replay, ingest, and stream each store events, then open the same case machine",
+        "Baselines run only on the stream",
+        "Ingest waits 10s quiet or 120s max; stream waits 6s or 45s"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "One gate",
+      "items": [
+        "Tier comes from the playbook step",
+        "VM jobs pass tier_override and skip that calculation",
+        "Some tier-2 malware steps run at confidence 0.95"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Caught",
+      "items": [
+        "A scenario passes when the expected tool name exists, even if still pending",
+        "A stream injection counts when the verdict is not benign"
+      ]
+    }
+  ]
+}

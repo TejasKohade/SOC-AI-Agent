@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/candidate.json",
+    "sha256": "db3bb2e5acfce13d59a3937e434976422d9bd0c52afb2f925e03fd62b1694c81",
+    "bytes": 4374
+  },
+  "artifact": {
+    "path": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/autosoc-runtime.html",
+    "sha256": "467f8854c9d0feb3ea57bf7839cb9dc794a0a0718b88ffc969d204c30fb39877",
+    "bytes": 823580
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/review-2/autosoc-runtime.finalize.json",
+    "summaryReceipt": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/review-2/autosoc-runtime.finalize-summary.json",
+    "browserCheckReceipt": "/Users/tejaskohade/Documents/Cybergate/.archify/architecture-autosoc-runtime-20261017-123124/review-2/autosoc-runtime.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-17T07:04:30.290Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 2088
+}

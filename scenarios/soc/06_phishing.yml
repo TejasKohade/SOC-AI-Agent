@@ -1,0 +1,20 @@
+id: phishing-01
+mitre: T1566
+description: Credential-phishing email with a look-alike domain sent to alice and dave; dave reports it.
+events:
+  - event: {source: email, action: email_delivered, host: mail-gw, email.from: it-support@login-micros0ft.test,
+            email.to: alice@corp.local, email.subject: "Password expires today - reset now",
+            url: "http://login-micros0ft.test/reset", domain: login-micros0ft.test, email.message_id: "<msg-1001@mail>"}
+  - after: 1s
+    event: {source: email, action: email_delivered, host: mail-gw, email.from: it-support@login-micros0ft.test,
+            email.to: dave@corp.local, email.subject: "Password expires today - reset now",
+            url: "http://login-micros0ft.test/reset", domain: login-micros0ft.test, email.message_id: "<msg-1002@mail>"}
+  - after: 5m
+    event: {source: email, action: user_reported_phish, host: mail-gw, user: dave,
+            email.message_id: "<msg-1002@mail>", url: "http://login-micros0ft.test/reset", domain: login-micros0ft.test}
+noise: {benign_emails: 80}
+noise_hosts: [mail-gw]
+expect:
+  verdict: malicious
+  actions: [email.quarantine, firewall.block_domain]
+  max_tier: 1

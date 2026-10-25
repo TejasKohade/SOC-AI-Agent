@@ -1,0 +1,12 @@
+id: vm-sla
+description: SLA reaches 75% and then breach -> warning, then escalation.
+steps:
+  - job: scan
+  - job: vm_agent
+  - expect: {host: web-01, cve: CVE-2026-21002, priority: P2, state: assigned}
+  - advance: 132h
+  - job: sla
+  - expect: {host: web-01, cve: CVE-2026-21002, sla_warned: true, sla_breached: false}
+  - advance: 48h
+  - job: sla
+  - expect: {host: web-01, cve: CVE-2026-21002, sla_breached: true, ticket_escalated: true}

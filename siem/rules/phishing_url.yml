@@ -1,0 +1,13 @@
+title: Phishing email with look-alike domain or user report
+id: autosoc-phishing-url
+status: test
+level: medium
+tags: [attack.initial_access, attack.t1566]
+logsource: {product: email_gateway}
+detection:
+  sel_lookalike:
+    event.module: email
+    url.domain|re: '(micros0ft|paypa1|g00gle|0ffice|-login\.|login-)'
+  sel_reported:
+    event.action: user_reported_phish
+  condition: sel_lookalike or sel_reported

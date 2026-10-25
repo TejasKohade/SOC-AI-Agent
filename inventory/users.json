@@ -1,0 +1,10 @@
+{
+  "users": [
+    {"name": "alice", "title": "Analyst", "department": "Finance", "role": "user", "host": "wks-alice-01"},
+    {"name": "bob", "title": "Engineer", "department": "R&D", "role": "user", "host": "wks-bob-02"},
+    {"name": "carol", "title": "IT Administrator", "department": "IT", "role": "admin", "host": "wks-carol-03"},
+    {"name": "dave", "title": "CFO", "department": "Executive", "role": "exec", "host": "wks-dave-04"},
+    {"name": "deploy", "title": "Deployment account", "department": "Engineering", "role": "user", "host": "web-01"},
+    {"name": "svc-sccm", "title": "SCCM service account", "department": "IT", "role": "service", "host": "dc-01"}
+  ]
+}

@@ -1,0 +1,8 @@
+id: vm-new-kev
+description: Bonus - a new KEV entry triggers rescoring, an emergency rescan and a 30-day threat-hunt case.
+steps:
+  - job: scan
+  - expect: {host: web-01, cve: CVE-2026-21002, priority: P2}
+  - kev: CVE-2026-21002
+  - expect: {host: web-01, cve: CVE-2026-21002, priority: P1}
+  - expect_case: {kind: hunt}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "skills": {
+    "investigate": {
+      "source": "Trecek/useful-claude-skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/investigate/SKILL.md",
+      "computedHash": "17fefbdc7cb4fb3fa8ac97718fc9adea43701388de489a5b03c5a2cd17327fa7"
+    },
+    "rectify": {
+      "source": "Trecek/useful-claude-skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/rectify/SKILL.md",
+      "computedHash": "67a5171b325edf47ed95852977f11269f526aae3820e98c23ebff9f953361676"
+    }
+  }
+}

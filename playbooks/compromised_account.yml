@@ -1,0 +1,25 @@
+id: compromised_account
+name: Compromised account
+trigger: Impossible travel, MFA fatigue, or a rogue account created by a user
+mitre: [T1136, T1078]
+rules: [autosoc-new-local-admin]
+params:
+  user: {required: true, desc: "the account that performed the suspicious activity"}
+  target_user: {required: false, desc: "a rogue account that was created, if any"}
+steps:
+  - id: disable_rogue
+    tool: idp.disable_user
+    when: target_user
+    params: {user: "{target_user}", reason: "rogue account created"}
+    tier: 2
+    raise_if: {target_user_role: [admin, exec]}
+  - id: revoke_sessions
+    tool: idp.revoke_sessions
+    params: {user: "{user}", reason: "account suspected compromised"}
+    tier: 2
+    raise_if: {user_role: [admin, exec]}
+  - id: force_reset
+    tool: idp.force_password_reset
+    params: {user: "{user}", reason: "account suspected compromised"}
+    tier: 2
+    raise_if: {user_role: [admin, exec]}

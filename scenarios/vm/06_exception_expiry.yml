@@ -1,0 +1,11 @@
+id: vm-exception-expiry
+description: Exception reaches expiry -> finding reopens automatically and returns to Assigned.
+steps:
+  - job: scan
+  - expect: {host: wks-alice-01, cve: CVE-2026-21008, priority: P4, state: triaged}
+  - accept_risk: {host: wks-alice-01, cve: CVE-2026-21008, reason: "Low impact, upgrade with next image", days: 7,
+                  approvals: [{user: alice, role: owner}]}
+  - expect: {host: wks-alice-01, cve: CVE-2026-21008, state: risk_accepted}
+  - advance: 8d
+  - job: exceptions
+  - expect: {host: wks-alice-01, cve: CVE-2026-21008, state: assigned, ticket: true}

@@ -1,0 +1,6 @@
+id: vm-risk-ranking
+description: Critical CVSS on an isolated test box ranks below an exploited (KEV) medium CVE.
+steps:
+  - job: scan
+  - expect: {host: test-box-01, cve: CVE-2026-21003, priority: P4}
+  - expect: {host: app-02, cve: CVE-2026-21004, priority: P2, ranks_above: {host: test-box-01, cve: CVE-2026-21003}}

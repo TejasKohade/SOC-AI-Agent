@@ -1,0 +1,13 @@
+title: Scheduled task created that runs a script or download
+id: autosoc-schtask-persistence
+status: test
+level: high
+tags: [attack.persistence, attack.t1053]
+logsource: {product: windows, category: process_creation}
+detection:
+  sel_create:
+    process.name|endswith: schtasks.exe
+    process.command_line|contains: "/create"
+  sel_payload:
+    process.command_line|contains: [powershell, "http://", "https://", ".ps1", cmd.exe]
+  condition: sel_create and sel_payload
